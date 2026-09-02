@@ -1,0 +1,12 @@
+meta:
+  name: "WinAlter Test Specs"
+  version: "1.0.0"
+appearance:
+  theme: "dark"
+explorer:
+  show_file_extensions: true
+  classic_context_menu: true
+services:
+  sysmain: "disabled"
+security:
+  bypass_win11_checks: true

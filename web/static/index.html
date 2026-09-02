@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinAlter Visual OS Studio | Windows Image Engineering Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="brand-title">
+                <h1>WinAlter Visual OS Studio</h1>
+                <p>Declarative Windows Image Engineering Platform & OS Compiler</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <select id="presetSelect" class="input-select" onchange="loadPresetTemplate()" style="width: 220px; font-weight: 700;">
+                <option value="minimal">Preset: Minimalist</option>
+                <option value="gaming" selected>Preset: Gaming & Performance</option>
+                <option value="enterprise">Preset: Enterprise Workstation</option>
+            </select>
+            <div class="badge-platform">Engine v0.1.0</div>
+        </div>
+    </header>
+
+    <!-- Studio Main Grid Layout -->
+    <div class="studio-container">
+
+        <!-- Left Main Panel: Desktop Canvas & Visual OS Designer -->
+        <main class="glass-panel">
+            <div class="panel-header">
+                <h2>Interactive Desktop Preview & OS Designer</h2>
+                <div style="font-size: 12px; color: var(--text-muted);">Real-time Declarative Customization</div>
+            </div>
+
+            <!-- Mini Windows 11 Desktop Interactive Canvas Mockup -->
+            <div class="desktop-preview-container" id="previewDesktop">
+                <div class="desktop-wallpaper wallpaper-dark" id="previewWallpaper"></div>
+
+                <!-- Desktop Icons -->
+                <div class="desktop-icons">
+                    <div class="mini-icon">
+                        <div class="mini-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/></svg>
+                        </div>
+                        <span class="mini-icon-label">This PC</span>
+                    </div>
+                    <div class="mini-icon">
+                        <div class="mini-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12z"/></svg>
+                        </div>
+                        <span class="mini-icon-label">Recycle Bin</span>
+                    </div>
+                </div>
+
+                <!-- Mini File Explorer Window Mockup -->
+                <div class="mini-window" id="previewWindow">
+                    <div class="mini-window-header">
+                        <span>File Explorer</span>
+                        <div class="mini-window-controls">
+                            <div class="win-dot" style="background:#ef4444;"></div>
+                            <div class="win-dot" style="background:#eab308;"></div>
+                            <div class="win-dot" style="background:#22c55e;"></div>
+                        </div>
+                    </div>
+                    <div class="mini-window-body">
+                        <div class="file-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#3b82f6"><path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6z"/></svg>
+                            <span id="previewFile1">Document.txt</span>
+                        </div>
+                        <div class="file-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#10b981"><path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6z"/></svg>
+                            <span id="previewFile2">Installer.exe</span>
+                        </div>
+                        <div class="file-item" id="previewContextItem" style="color: #a855f7; font-weight: 700;">
+                            <span>Context Menu: Win10 Classic</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Taskbar Mockup -->
+                <div class="mini-taskbar" id="previewTaskbar">
+                    <div class="mini-taskbar-icons align-left" id="previewTaskbarIcons">
+                        <div class="tb-icon" style="background: var(--gradient-brand);">
+                            <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+                        </div>
+                        <div class="tb-search-bar" id="previewSearch">Search...</div>
+                        <div class="tb-icon">
+                            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/></svg>
+                        </div>
+                        <div class="tb-icon" id="previewCopilot">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target ISO Selection Input Card -->
+            <div class="card-setting" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.3);">
+                <div class="card-top">
+                    <h4>Target Windows ISO Image</h4>
+                    <span class="risk-tag" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">Supported</span>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" id="isoPath" class="input-text" placeholder="e.g. C:\ISOs\Windows11_23H2_x64.iso">
+                    <button class="btn-execute" onclick="inspectISO()" style="padding: 10px 20px; font-size: 13px;">Inspect ISO</button>
+                </div>
+                <div id="isoStats" style="display: none; font-size: 12px; color: #c4b5fd; margin-top: 4px;">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Concept Navigation Tabs -->
+            <nav class="concept-tabs">
+                <button class="tab-item active" onclick="switchConceptTab('appearance')">Appearance</button>
+                <button class="tab-item" onclick="switchConceptTab('shell')">Shell & Taskbar</button>
+                <button class="tab-item" onclick="switchConceptTab('explorer')">File Explorer</button>
+                <button class="tab-item" onclick="switchConceptTab('services')">Services & Performance</button>
+                <button class="tab-item" onclick="switchConceptTab('security')">Security & Bypasses</button>
+                <button class="tab-item" onclick="switchConceptTab('apps')">Apps & Debloater</button>
+                <button class="tab-item" onclick="switchConceptTab('oobe')">OOBE Setup</button>
+            </nav>
+
+            <!-- Concept Tab 1: Appearance -->
+            <div id="concept-appearance" class="concept-matrix">
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>System Theme Mode</h4>
+                        <span class="risk-tag" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">Advanced</span>
+                    </div>
+                    <select id="appTheme" class="input-select" onchange="updateSpecFromUI()">
+                        <option value="dark" selected>Dark Theme Mode</option>
+                        <option value="light">Light Theme Mode</option>
+                    </select>
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Accent Glow Color</h4>
+                        <span class="risk-tag" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">Advanced</span>
+                    </div>
+                    <input type="text" id="accentColor" class="input-text" value="#8B5CF6" onchange="updateSpecFromUI()">
+                </div>
+            </div>
+
+            <!-- Concept Tab 2: Shell & Taskbar -->
+            <div id="concept-shell" class="concept-matrix" style="display: none;">
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Taskbar Alignment</h4>
+                        <span class="risk-tag" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">Advanced</span>
+                    </div>
+                    <select id="tbAlign" class="input-select" onchange="updateSpecFromUI()">
+                        <option value="left" selected>Left Aligned (Classic Windows)</option>
+                        <option value="center">Center Aligned (Win 11 Default)</option>
+                    </select>
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Search Box Integration</h4>
+                        <span class="risk-tag" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">Configuration</span>
+                    </div>
+                    <select id="tbSearch" class="input-select" onchange="updateSpecFromUI()">
+                        <option value="hidden" selected>Hidden Search Bar</option>
+                        <option value="icon">Search Icon Only</option>
+                        <option value="box">Search Box</option>
+                    </select>
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Windows Copilot & AI Integration</h4>
+                        <span class="risk-tag" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">Configuration</span>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="disableCopilot" checked onchange="updateSpecFromUI()">
+                        Disable Windows Copilot Icon & Integration
+                    </label>
+                </div>
+            </div>
+
+            <!-- Concept Tab 3: File Explorer -->
+            <div id="concept-explorer" class="concept-matrix" style="display: none;">
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>File Extensions & Hidden Files</h4>
+                        <span class="risk-tag" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">Configuration</span>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="showExt" checked onchange="updateSpecFromUI()">
+                        Always Show Known File Extensions (.exe, .iso, .txt)
+                    </label>
+                    <label class="checkbox-label" style="margin-top: 8px;">
+                        <input type="checkbox" id="showHidden" checked onchange="updateSpecFromUI()">
+                        Show Hidden Files, Folders, and System Drives
+                    </label>
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Context Menu Style</h4>
+                        <span class="risk-tag" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">Advanced</span>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="classicCtx" checked onchange="updateSpecFromUI()">
+                        Restore Classic Windows 10 Full Right-Click Context Menu
+                    </label>
+                </div>
+            </div>
+
+            <!-- Concept Tab 4: Services -->
+            <div id="concept-services" class="concept-matrix" style="display: none;">
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>SysMain (Superfetch)</h4>
+                        <span class="risk-tag" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">Configuration</span>
+                    </div>
+                    <select id="svcSysMain" class="input-select" onchange="updateSpecFromUI()">
+                        <option value="disabled" selected>Disabled (Optimized for SSDs & Performance)</option>
+                        <option value="auto">Automatic (Default)</option>
+                    </select>
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Diagnostic Telemetry (DiagTrack)</h4>
+                        <span class="risk-tag" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">Configuration</span>
+                    </div>
+                    <select id="svcDiagTrack" class="input-select" onchange="updateSpecFromUI()">
+                        <option value="disabled" selected>Disabled (Maximum Privacy)</option>
+                        <option value="auto">Automatic (Default)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Concept Tab 5: Security -->
+            <div id="concept-security" class="concept-matrix" style="display: none;">
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Windows 11 Hardware Check Bypasses</h4>
+                        <span class="risk-tag" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">Supported</span>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="bypassWin11" checked onchange="updateSpecFromUI()">
+                        Bypass TPM 2.0, SecureBoot, RAM (4GB), CPU, & Storage Checks
+                    </label>
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Telemetry & Advertising ID</h4>
+                        <span class="risk-tag" style="background: rgba(0, 242, 254, 0.2); color: #00f2fe;">Configuration</span>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="disableTelemetry" checked onchange="updateSpecFromUI()">
+                        Disable Connected User Experiences & Advertising Tracking ID
+                    </label>
+                </div>
+            </div>
+
+            <!-- Concept Tab 6: Apps & Debloater -->
+            <div id="concept-apps" class="concept-matrix" style="display: none;">
+                <div class="card-setting" style="grid-column: 1 / -1;">
+                    <div class="card-top">
+                        <h4>Provisioned AppX Package Debloater</h4>
+                        <span class="risk-tag" style="background: rgba(59, 130, 246, 0.2); color: #3b82f6;">Provisioning</span>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted);">Target packages for removal during offline image servicing:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 10px;">
+                        <label class="checkbox-label"><input type="checkbox" class="appx-chk" value="Microsoft.XboxApp" checked onchange="updateSpecFromUI()"> Xbox Apps & Overlays</label>
+                        <label class="checkbox-label"><input type="checkbox" class="appx-chk" value="Microsoft.BingNews" checked onchange="updateSpecFromUI()"> Bing News</label>
+                        <label class="checkbox-label"><input type="checkbox" class="appx-chk" value="Microsoft.BingWeather" checked onchange="updateSpecFromUI()"> Bing Weather</label>
+                        <label class="checkbox-label"><input type="checkbox" class="appx-chk" value="Microsoft.WindowsFeedbackHub" checked onchange="updateSpecFromUI()"> Feedback Hub</label>
+                        <label class="checkbox-label"><input type="checkbox" class="appx-chk" value="Microsoft.Getstarted" checked onchange="updateSpecFromUI()"> Get Started / Tips</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept Tab 7: OOBE Setup -->
+            <div id="concept-oobe" class="concept-matrix" style="display: none;">
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Local Administrator Account</h4>
+                        <span class="risk-tag" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">Supported</span>
+                    </div>
+                    <input type="text" id="oobeUser" class="input-text" value="Admin" placeholder="Username" onchange="updateSpecFromUI()">
+                </div>
+                <div class="card-setting">
+                    <div class="card-top">
+                        <h4>Setup Automation Options</h4>
+                        <span class="risk-tag" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">Supported</span>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="skipOOBE" checked onchange="updateSpecFromUI()">
+                        Skip OOBE, Accept EULA, and Bypass Internet Requirement (`BypassNRO`)
+                    </label>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Right Side: Spec Code Editor, Risk AST Execution Plan, Console Log -->
+        <aside class="glass-panel">
+            <div class="panel-header">
+                <h2>Compiler Output & Inspection</h2>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="tab-item active" id="tabYaml" onclick="switchRightTab('yaml')">winalter.yaml</button>
+                <button class="tab-item" id="tabAst" onclick="switchRightTab('ast')">AST Plan</button>
+            </div>
+
+            <!-- YAML View -->
+            <div id="viewYaml" class="code-panel"># Generating winalter.yaml...</div>
+
+            <!-- AST Execution Plan View -->
+            <div id="viewAst" class="code-panel" style="display: none; color: #67e8f9;"># Compiling AST...</div>
+
+            <!-- Action Button -->
+            <button class="btn-execute" id="btnBuild" onclick="startBuild()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2v20M2 12h20"/></svg>
+                Compile Distribution ISO
+            </button>
+
+            <!-- Console Log -->
+            <div class="console-terminal" id="consoleLog">WinAlter Engine Ready. Select settings or import ISO to compile.</div>
+        </aside>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
